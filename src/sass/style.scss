@@ -79,6 +79,7 @@ $secondary-color: #555555;
 
 // HEADER
 .header {
+  @include flex();
   padding: 38px 0;
   width: 100%;
   background-color: $light-color;
@@ -97,6 +98,7 @@ $secondary-color: #555555;
     max-width: 1680px;
     margin: 0 auto;
     padding: 0 60px;
+    position: relative;
   }
 
   &__start {
@@ -138,13 +140,13 @@ $secondary-color: #555555;
 
   &__menu {
     @include flex();
-    column-gap: 10px;
+    column-gap: 4px;
     &_link {
-      font-family: "Manrope";
-      font-weight: 400;
-      font-size: 1.125rem;
-      line-height: 125%;
-      color: $secondary-color;
+      @include text($secondary-color);
+      transition: 0.3s;
+      &:hover {
+        color: $primary-color;
+      }
     }
   }
 
@@ -158,19 +160,6 @@ $secondary-color: #555555;
     @include btn($light-color, $primary-color);
     column-gap: 12px;
     padding: 16px 33px;
-  }
-  &__burger {
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-    width: 30px;
-    opacity: 0;
-    position: absolute;
-    &_item {
-      width: 100%;
-      height: 2px;
-      background-color: $primary-color;
-    }
   }
 }
 .accordion {
@@ -188,14 +177,22 @@ $secondary-color: #555555;
   border: 1px $primary-color solid;
   border-top: none;
   position: absolute;
-  left: 50%;
   margin-top: 20px;
   &__item {
     @include text($secondary-color);
     display: block;
+    transition: 0.3s;
+    &:hover {
+      color: $primary-color;
+    }
   }
 }
-@media (max-width: 1200px) {
+#burger,
+[for="burger"] {
+  display: none;
+}
+
+@media (max-width: 1240px) {
   .header {
     &__call {
       display: none;
@@ -204,32 +201,85 @@ $secondary-color: #555555;
 }
 @media (max-width: 930px) {
   .header {
+    height: 60px;
+    padding: 0;
     &__nav {
-      grid-template-columns: 0.5fr 1fr 0.15fr;
-    }
-    &__menu {
-      display: none;
-    }
-    &__burger {
-      opacity: 100%;
-      position: relative;
-    }
-  }
-}
-@media (max-width: 628px) {
-  .header {
-    &__btn {
-      display: none;
-    }
-    &__nav {
-      grid-template-columns: 1fr;
+      display: flex;
+      padding: 10px;
+      display: none !important;
+      position: fixed;
+      background: rgba(216, 243, 253, 0.692);
+      user-select: none;
+      top: 60px;
+      left: 50%;
+      transform: translate(-50%);
+      width: 90vw;
+      height: 100vh;
+      & > * {
+        flex-direction: column;
+        row-gap: 20px;
+      }
     }
     &__sm {
-      display: none;
+      max-width: 100px;
+      margin: 0 auto;
+      flex-direction: row;
     }
-    &__burger {
-      justify-self: end;
+    &__btn {
+      max-width: 200px;
+      margin: 0 auto;
+      flex-direction: row;
+    }
+
+    [for="burger"] {
+      display: flex;
+      background-color: $primary-color;
+      width: 30px;
+      height: 2px;
+      position: relative;
+      margin-right: 0;
+      bottom: 10px;
       cursor: pointer;
+      justify-self: end;
+    }
+    [for="burger"]:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      margin-top: 10px;
+      background-color: $primary-color;
+    }
+    [for="burger"]:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      margin-top: 20px;
+      background-color: $primary-color;
+    }
+
+    #burger:checked + label + nav {
+      display: block !important;
+      animation: show 0.5s ease;
+    }
+    #burger:checked + [for="burger"] {
+      width: 1em;
+      height: 1em;
+      clip-path: polygon(
+        20% 0%,
+        0% 20%,
+        30% 50%,
+        0% 80%,
+        20% 100%,
+        50% 70%,
+        80% 100%,
+        100% 80%,
+        70% 50%,
+        100% 20%,
+        80% 0%,
+        50% 30%
+      );
     }
   }
 }
@@ -307,6 +357,7 @@ $secondary-color: #555555;
     background-image: none;
     &__cta {
       text-align: center;
+      margin: 0 auto;
     }
     &__suptitle {
       margin: 0 auto;
@@ -432,18 +483,44 @@ $secondary-color: #555555;
       flex-direction: column;
       row-gap: 14px;
       background-color: $light-color;
-      padding: 21px 11px;
       border: 1px $dark-primary-color solid;
-      max-height: 180px;
+      width: 165px;
+      padding: 21px 11px;
+      text-align: center;
     }
     &_title {
       font-weight: 700;
       font-size: 1.375rem;
       line-height: 120%;
       color: $dark-color;
+      max-width: 99px;
+    }
+  }
+  &__img {
+    z-index: 1;
+    position: relative;
+    &_wrapper {
+      position: relative;
+      max-width: 500px;
+      max-height: 576px;
+      margin: 50px 50px 0 0;
+
+      &::after {
+        content: " ";
+        position: absolute;
+        background-image: url("../img/about__img_bg.png");
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        right: 0;
+        top: -50px;
+        left: 50px;
+        z-index: 0 !important;
+      }
     }
   }
 }
+
 @media (max-width: 1200px) {
   .about {
     &__container {
@@ -454,6 +531,14 @@ $secondary-color: #555555;
       margin: 0 auto;
       text-align: center;
     }
+    &__img {
+      &_wrapper {
+        margin: 0;
+        &::after {
+          content: none;
+        }
+      }
+    }
   }
 }
 @media (max-width: 628px) {
@@ -462,6 +547,10 @@ $secondary-color: #555555;
       width: 80%;
       display: block;
       margin: 0 auto;
+      &__wrapper {
+        &::after {
+        }
+      }
     }
     &__ad {
       flex-direction: column;
@@ -1033,8 +1122,13 @@ $secondary-color: #555555;
     @include flex();
     column-gap: 10px;
     &_item {
-      padding: 17px 22px;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border: 2px $primary-color solid;
+      cursor: pointer;
     }
   }
 
