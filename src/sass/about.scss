@@ -47,7 +47,17 @@ $secondary-color: #555555;
   background-color: $primary-color;
   text-transform: uppercase;
   letter-spacing: 12%;
+  transition: 0.3s;
+  border: 1px $primary-color solid !important;
+  &:hover {
+    background-color: $light-color;
+    color: $primary-color;
+    svg {
+      fill: $primary-color;
+    }
+  }
 }
+
 @mixin suptitle($primary-color) {
   font-family: "Manrope";
   font-weight: 600;
@@ -697,7 +707,7 @@ $secondary-color: #555555;
     column-gap: 17px;
     &_text {
       font-weight: 700;
-      font-size: 1.75rem;
+      font-size: 2.5rem;
       line-height: 125%;
       color: $light-color;
     }
